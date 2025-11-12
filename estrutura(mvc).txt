@@ -1,0 +1,45 @@
+agendamento_barbearia/
+│
+├── app/
+│   ├── controllers/
+│   │   ├── UsuarioController.php
+│   │   ├── BarbeiroController.php
+│   │   ├── ServicoController.php
+│   │   └── AgendamentoController.php
+│   │
+│   ├── models/
+│   │   ├── Usuario.php
+│   │   ├── Barbeiro.php
+│   │   ├── Servico.php
+│   │   └── Agendamento.php
+│   │
+│   └── views/
+│       ├── usuarios/
+│       │   ├── index.php
+│       │   └── form.php
+│       ├── barbeiros/
+│       │   ├── index.php
+│       │   └── form.php
+│       ├── servicos/
+│       │   ├── index.php
+│       │   └── form.php
+│       ├── agendamentos/
+│       │   ├── index.php
+│       │   └── form.php
+│       └── templates/
+│           ├── header.php
+│           └── footer.php
+│
+├── public/
+│   ├── index.php
+│   ├── css/
+│   │   └── style.css
+│   ├── js/
+│   │   └── main.js
+│   └── assets/
+│       └── img/
+│
+├── config/
+│   └── database.php
+│
+└── .htaccess
