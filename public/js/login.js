@@ -324,10 +324,10 @@ class LoginForm2 {
         this.submitBtn.style.boxShadow = '0 0 30px rgba(0, 255, 136, 0.6)';
         
         try {
-            const email = document.getElementById('email').value;
+            const login = document.getElementById('login').value;
             const password = document.getElementById('password').value;
             
-            await FormUtils.simulateLogin(email, password);
+            await FormUtils.simulateLogin(login, password);
             
             this.showSuccessMessage();
             
