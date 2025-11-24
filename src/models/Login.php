@@ -11,7 +11,7 @@ use Throwable;
 class Login extends Model
 {
     public function logar($dados)
-    {       // and senha = ':senha'
+    {       
         $sql = "select u.idusuario, u.nome, u.senha FROM usuarios u WHERE u.login = ':login' and u.idsituacao = 1 ";
         $sql= $this->switchParams($sql, $dados);
         try {
