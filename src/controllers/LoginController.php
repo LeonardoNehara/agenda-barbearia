@@ -12,6 +12,8 @@ class LoginController extends Controller {
     }
     
     public function logar() {
+        header('Content-Type: application/json; charset=utf-8');
+
         $dados['login'] = $_POST["login"] ?? null;
         $dados['password'] = $_POST["password"] ?? null;
 
@@ -31,7 +33,7 @@ class LoginController extends Controller {
             echo json_encode([
                 'success' => true,
                 'user' => $result['result'],
-                'redirect' => '/dashboard'
+                'redirect' => '/'
             ]);
 
         } else {

@@ -1,3 +1,117 @@
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('loginForm');
+    if (!form) return console.error('Formulário #loginForm não encontrado.');
+
+    const submitBtn = document.getElementById('submitBtn');
+    const btnText = submitBtn ? submitBtn.querySelector('.btn-text') : null;
+
+    // Apesar do input ter id="email", o name é "login" (assumindo seu HTML).
+    // Vamos usar form.login para pegar o valor corretamente.
+    const loginField = form.login; // name="login"
+    const passwordField = form.password; // name="password"
+
+    const loginError = document.getElementById('emailError'); // mantém o id do span existente
+    const passwordError = document.getElementById('passwordError');
+    const successBox = document.getElementById('successMessage');
+
+    const passwordInput = document.getElementById('password');
+    const passwordToggle = document.getElementById('passwordToggle');
+
+    // protege caso elemento não exista
+    if (passwordToggle && passwordInput) {
+        passwordToggle.addEventListener('click', () => {
+            passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+            passwordToggle.setAttribute('aria-pressed', passwordInput.type === 'text');
+        });
+    }
+
+    // função utilitária para limpar erros
+    function clearErrors() {
+        if (loginError) loginError.textContent = '';
+        if (passwordError) passwordError.textContent = '';
+    }
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // debug: confirme que os campos existem e quais valores serão enviados
+        console.log('loginField exists?', !!loginField, 'value:', loginField ? loginField.value : '');
+        console.log('passwordField exists?', !!passwordField, 'value:', passwordField ? '[HIDDEN]' : '');
+
+        clearErrors();
+
+        const login = loginField ? String(loginField.value).trim() : '';
+        const password = passwordField ? String(passwordField.value).trim() : '';
+
+        let error = false;
+        if (!login) {
+            if (loginError) loginError.textContent = 'Informe o login.';
+            error = true;
+        }
+        if (!password) {
+            if (passwordError) passwordError.textContent = 'Informe a senha.';
+            error = true;
+        }
+        if (error) return;
+
+        // feedback no botão (verifica se existe)
+        if (submitBtn) submitBtn.disabled = true;
+        if (btnText) btnText.textContent = 'Entrando...';
+
+        try {
+            const data = new FormData(form); // envia name="login" e name="password"
+
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: data,
+                credentials: 'same-origin'
+            });
+
+            // tenta converter pra JSON
+            const json = await response.json();
+
+            console.log('Resposta do servidor:', json);
+
+            if (json.success) {
+                if (successBox) successBox.removeAttribute('aria-hidden');
+                form.style.display = 'none';
+
+                if (json.redirect) {
+                    // redireciona conforme resposta do servidor
+                    window.location.href = json.redirect;
+                } else {
+                    // fallback
+                    window.location.reload();
+                }
+            } else {
+                // suporta msg geral, ou um objeto de errors { login: '...', password: '...' }
+                if (json.errors && typeof json.errors === 'object') {
+                    if (json.errors.login && loginError) loginError.textContent = json.errors.login;
+                    if (json.errors.password && passwordError) passwordError.textContent = json.errors.password;
+                } else if (json.msg) {
+                    // heurística: se a msg fala em "login" mostra em loginError, senão em passwordError
+                    if (/login|usuário|email/i.test(json.msg)) {
+                        if (loginError) loginError.textContent = json.msg;
+                        else alert(json.msg);
+                    } else {
+                        if (passwordError) passwordError.textContent = json.msg;
+                        else alert(json.msg);
+                    }
+                } else {
+                    alert('Falha no login. Tente novamente.');
+                }
+            }
+
+        } catch (err) {
+            console.error('Erro na requisição:', err);
+            alert('Erro ao conectar com o servidor. Verifique se o backend está rodando.');
+        } finally {
+            if (submitBtn) submitBtn.disabled = false;
+            if (btnText) btnText.textContent = 'Entrar';
+        }
+    });
+});
+
 class LoginForm2 {
     constructor() {
         this.form = document.getElementById('loginForm');
