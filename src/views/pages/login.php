@@ -11,8 +11,8 @@
             <form class="login-form" id="loginForm" method="POST" action="<?= $base ?>/logar" novalidate>
                 <div class="form-group">
                     <div class="input-wrapper">
-                        <input type="email" id="email" name="login" required autocomplete="email">
-                        <label for="email">E-mail</label>
+                        <input type="text" id="login" name="login" required autocomplete="email">
+                        <label for="login">E-mail</label>
                         <span class="input-line"></span>
                     </div>
                     <span class="error-message" id="emailError"></span>
@@ -67,5 +67,4 @@
             <div class="glow-orb glow-orb-3"></div>
         </div>
     </div>
-    <script src="/js/login.js"></script>
-<?php $render('footer'); ?>
+    <script src="js/login.js"></script>
