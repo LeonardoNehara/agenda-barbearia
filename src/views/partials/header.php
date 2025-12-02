@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="<?= $base; ?>/css/header/botoes.css">
     <link rel="stylesheet" href="<?= $base; ?>/css/header/header.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body style="background-color: #EDF2F6;">
     <?php if (isset($_SESSION['usuario'])): ?>
