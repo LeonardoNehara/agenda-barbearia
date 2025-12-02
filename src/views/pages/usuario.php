@@ -1,5 +1,5 @@
 <?php $render('header'); ?>
-<link rel="stylesheet" href="<?= $base; ?>/css/usuario.css">
+<link rel="stylesheet" href="<?= $base; ?>/css/form.css">
 <main class='main-div' style="width:100%;">
 
     <div class="form-container">
