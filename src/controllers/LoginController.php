@@ -14,6 +14,11 @@ class LoginController extends Controller {
     }
     
     public function index() {
+        if (isset($_SESSION['usuario'])) {
+            header('Location: ' . Config::BASE_DIR . '/inicio');
+            exit;
+        }
+
         $this->render('login', ['base' => Config::BASE_DIR]);
     }
     
