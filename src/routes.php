@@ -12,4 +12,7 @@ $router->get('/deslogar', 'LoginController@deslogar');
 $router->get('/usuario', 'UsuarioController@index');
 
 // Barbeiros
-$router->get('/barbeiros', 'BarbeiroController@index');  
+$router->get('/barbeiros', 'BarbeiroController@index'); 
+
+// Serviços
+$router->get('/servicos', 'ServicoController@index');
