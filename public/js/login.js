@@ -5,19 +5,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const submitBtn = document.getElementById('submitBtn');
     const btnText = submitBtn ? submitBtn.querySelector('.btn-text') : null;
 
-    // Apesar do input ter id="email", o name é "login" (assumindo seu HTML).
-    // Vamos usar form.login para pegar o valor corretamente.
-    const loginField = form.login; // name="login"
-    const passwordField = form.password; // name="password"
+    const loginField = form.login;
+    const passwordField = form.password; 
 
-    const loginError = document.getElementById('emailError'); // mantém o id do span existente
+    const loginError = document.getElementById('emailError');
     const passwordError = document.getElementById('passwordError');
     const successBox = document.getElementById('successMessage');
 
     const passwordInput = document.getElementById('password');
     const passwordToggle = document.getElementById('passwordToggle');
 
-    // protege caso elemento não exista
     if (passwordToggle && passwordInput) {
         passwordToggle.addEventListener('click', () => {
             passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
@@ -25,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // função utilitária para limpar erros
     function clearErrors() {
         if (loginError) loginError.textContent = '';
         if (passwordError) passwordError.textContent = '';
@@ -34,7 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // debug: confirme que os campos existem e quais valores serão enviados
         console.log('loginField exists?', !!loginField, 'value:', loginField ? loginField.value : '');
         console.log('passwordField exists?', !!passwordField, 'value:', passwordField ? '[HIDDEN]' : '');
 
@@ -54,12 +49,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (error) return;
 
-        // feedback no botão (verifica se existe)
         if (submitBtn) submitBtn.disabled = true;
         if (btnText) btnText.textContent = 'Entrando...';
 
         try {
-            const data = new FormData(form); // envia name="login" e name="password"
+            const data = new FormData(form);
 
             const response = await fetch(form.action, {
                 method: 'POST',
@@ -77,19 +71,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 form.style.display = 'none';
 
                 if (json.redirect) {
-                    // redireciona conforme resposta do servidor
                     window.location.href = json.redirect;
                 } else {
                     // fallback
                     window.location.reload();
                 }
             } else {
-                // suporta msg geral, ou um objeto de errors { login: '...', password: '...' }
                 if (json.errors && typeof json.errors === 'object') {
                     if (json.errors.login && loginError) loginError.textContent = json.errors.login;
                     if (json.errors.password && passwordError) passwordError.textContent = json.errors.password;
                 } else if (json.msg) {
-                    // heurística: se a msg fala em "login" mostra em loginError, senão em passwordError
                     if (/login|usuário|email/i.test(json.msg)) {
                         if (loginError) loginError.textContent = json.msg;
                         else alert(json.msg);
@@ -149,8 +140,7 @@ class LoginForm2 {
                 field.addEventListener('input', () => this.clearError(fieldName));
             }
         });
-        
-        // Enhanced focus effects
+
         const inputs = this.form.querySelectorAll('input');
         inputs.forEach(input => {
             input.addEventListener('focus', (e) => this.handleFocus(e));
@@ -228,8 +218,7 @@ class LoginForm2 {
         const socialButtons = document.querySelectorAll('.social-btn');
         socialButtons.forEach(btn => {
             btn.addEventListener('click', (e) => this.handleSocialLogin(e));
-            
-            // Add hover glow effect
+
             btn.addEventListener('mouseenter', () => {
                 btn.style.boxShadow = '0 4px 20px rgba(0, 255, 136, 0.2)';
             });
