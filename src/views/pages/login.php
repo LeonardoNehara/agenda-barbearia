@@ -11,8 +11,8 @@
             <form class="login-form" id="loginForm" method="POST" action="<?= $base ?>/logar" novalidate>
                 <div class="form-group">
                     <div class="input-wrapper">
-                        <input type="text" id="login" name="login" required autocomplete="email">
-                        <label for="login">E-mail</label>
+                        <input type="text" id="login" name="login" required autocomplete="Usuario">
+                        <label for="login">Usuario</label>
                         <span class="input-line"></span>
                     </div>
                     <span class="error-message" id="emailError"></span>
