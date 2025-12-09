@@ -59,10 +59,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (logoutButton) {
         logoutButton.addEventListener('click', function (e) {
-            e.preventDefault(); // evita o redirecionamento imediato
+            e.preventDefault();
             const confirmar = confirm('Você realmente quer sair?');
             if (confirmar) {
-                window.location.href = logoutButton.href; // se sim, redireciona
+                window.location.href = logoutButton.href;
             }
         });
     }

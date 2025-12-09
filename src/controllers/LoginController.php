@@ -40,8 +40,7 @@ class LoginController extends Controller {
         $acesso = new Login();
         $result = $acesso->logar($dados);      
 
-        if ($result['sucesso'] && md5($dados['password']) === $result['result']['senha']) {
-
+        if ($result['sucesso'] && password_verify($dados['password'], $result['result']['senha'])) {
             $_SESSION['usuario'] = $result['result']['nome'];
             $_SESSION['usuario_id'] = $result['result']['idusuario'];
 

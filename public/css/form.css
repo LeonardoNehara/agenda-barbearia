@@ -32,6 +32,120 @@ h5 {
     margin-left: 100px;
 }
 
+.table-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(30,30,30,0.06);
+  padding: 18px;
+  margin-top: 18px;
+  border: 1px solid rgba(0,0,0,0.03);
+}
+
+#mytable.table {
+  font-size: 14px;
+  border-collapse: separate !important;
+  border-spacing: 0;
+  overflow: hidden;
+  border-radius: 8px;
+  width: 100% !important;
+}
+
+#mytable.table thead th {
+  background: linear-gradient(180deg, #f8f9fb, #ffffff);
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  box-shadow: inset 0 -1px 0 rgba(0,0,0,0.03);
+  padding: 10px 12px;
+  text-align: left;
+}
+
+#mytable.table tbody td {
+  padding: 8px 12px;
+  vertical-align: middle;
+}
+
+#mytable.table tbody tr:nth-child(odd) { background: #fbfcfe; }
+#mytable.table tbody tr:hover { background: #f1f7ff; }
+
+.badge-status {
+  display:inline-block;
+  padding:0.25rem 0.6rem;
+  font-size: 12px;
+  border-radius: 999px;
+  font-weight:600;
+  letter-spacing: .2px;
+}
+
+.badge-status.ativo { background: rgba(40,167,69,0.12); color: #28a745; }
+.badge-status.inativo { background: rgba(220,53,69,0.08); color: #dc3545; }
+
+.table-action {
+  display:inline-flex;
+  gap:6px;
+}
+
+.table-action .btn-sm {
+  padding: 5px 8px;
+  font-size: 13px;
+  border-radius: 8px;
+  box-shadow: none;
+  border: 1px solid rgba(0,0,0,0.06);
+  background: #fff;
+  cursor: pointer;
+}
+
+.dataTables_wrapper .dt-buttons .dt-button {
+  border-radius: 8px;
+  padding: 6px 10px;
+  margin-right: 6px;
+  font-size: 13px;
+  border: 1px solid rgba(0,0,0,0.06);
+  background: #ffffff;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+  border-radius: 8px;
+  padding: 6px 10px;
+  margin-left: 6px;
+  width: 220px;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+
+@media (max-width: 768px) {
+  .table-card { padding: 10px; }
+  .dataTables_wrapper .dataTables_filter input { width: 140px; }
+  #mytable.table thead th, #mytable.table tbody td { padding: 8px; font-size: 13px; }
+}
+
+.btn-edit i {
+    color: #0d6efd !important;
+    font-size: 18px;
+}
+
+.btn-toggle i {
+  pointer-events: none;
+}
+
+.row-highlight {
+  animation: highlight 2s ease;
+}
+
+@keyframes highlight {
+  0% { background: #fff6d6; }
+  100% { background: transparent; }
+}
+
+.table-header-row {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:12px;
+}
+
+
 @media (max-width: 395px) {
     .form-cad {
         font-size: 0.90rem;

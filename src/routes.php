@@ -13,6 +13,10 @@ $router->get('/inicio', 'InicioController@index');
 
 // Cadastro de Usuário
 $router->get('/usuario', 'UsuarioController@index');
+$router->post('/cadusuario', 'UsuarioController@cadastro');
+$router->get('/getusuarios', 'UsuarioController@getUsuarios');
+$router->post('/updatesituacaousuario', 'UsuarioController@updateSituacaoUsuario');
+$router->post('/editarusuario', 'UsuarioController@editar');
 
 // Barbeiros
 $router->get('/barbeiros', 'BarbeiroController@index'); 
