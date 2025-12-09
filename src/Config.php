@@ -5,7 +5,7 @@ class Config {
     const BASE_DIR = '/agenda-barbearia/public';
     const DB_DRIVER = 'mysql';
     const DB_HOST = 'localhost';
-    const DB_DATABASE = 'agendamento_barbearia';
+    const DB_DATABASE = 'agenda_barbearia';
     CONST DB_USER = 'root';
     const DB_PASS = '';
     const ERROR_CONTROLLER = 'ErrorController';

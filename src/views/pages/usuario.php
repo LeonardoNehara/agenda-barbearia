@@ -33,7 +33,7 @@
         </div>
     </div>
 
-    <div class="form-container">
+    <div class="form-container table-card">
         <h1><strong>Usuários</strong></h1>
         <h4>Gestão de usuários e acessos:</h4>
         <table id="mytable" class="table table-bordered display nowrap" style="width:100%"></table>
@@ -42,4 +42,7 @@
 </main>
 
 </body>
+<script>
+    const base = "<?= $base ?>";
+</script>
 <script src="<?= $base; ?>/js/usuario.js"></script>
