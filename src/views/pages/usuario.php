@@ -40,8 +40,6 @@
     </div>
 
 </main>
-
-</body>
 <script>
     const base = "<?= $base ?>";
 </script>

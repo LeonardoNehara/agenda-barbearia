@@ -7,8 +7,8 @@ use core\Database;
 use PDO;
 use Throwable;
 
-class Usuario extends Model
-{
+class Usuario extends Model {
+    
     public function cadastro($dados)
     {
         $nome = isset($dados['nome']) ? trim($dados['nome']) : null;

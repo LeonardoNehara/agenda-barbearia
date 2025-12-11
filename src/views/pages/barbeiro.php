@@ -28,12 +28,14 @@
         </div>
     </div>
 
-    <div class="form-container">
+    <div class="form-container table-card">
         <h1><strong>Barbeiros</strong></h1>
         <h4>Gestão de barbeiros:</h4>
         <table id="mytable" class="table table-bordered display nowrap" style="width: 100%"></table>
     </div>
 </main>
 
-</body>
+<script>
+    const base = '<?= $base; ?>';
+</script>
 <script src="<?= $base; ?>/js/barbeiro.js"></script>
