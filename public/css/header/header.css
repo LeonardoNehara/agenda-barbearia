@@ -5,13 +5,16 @@
     padding: 10px;
     background-color: #fff;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    z-index: 1;
+
+    z-index: 2000;
+
     transition: margin-left 0.3s ease; 
-    margin-left: 0; /* começa fechada */
+    margin-left: 0;
 }
 
 .header i {
@@ -27,16 +30,21 @@
     width: 250px;
     background-color: #fff;
     height: 100vh;
+
     position: fixed;
     top: 0;
-    left: -250px; /* sempre começa fechada */
+    left: -250px;
+
     display: flex;
     flex-direction: column;
+
     border-right: 2px solid #dbe1e8;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+
     transition: left 0.3s ease;
-    z-index: 2;
-} 
+
+    z-index: 3000;
+}
 
 .sidebar.open {
     left: 0;
@@ -79,7 +87,7 @@
 }
 
 .content {
-    margin-top: 50px;
+    margin-top: 70px;
     margin-left: 0;
     padding: 20px;
     flex-grow: 1;
@@ -96,15 +104,16 @@ body.sidebar-open .content {
     margin-left: 250px;
 }
 
-hr {
-    margin: 0;
-}
-
 .sair-icon {
     position: fixed; 
     top: 8px; 
     right: 20px; 
-    z-index: 3;
+
+    z-index: 4000;
+}
+
+hr {
+    margin: 0;
 }
 
 @media screen and (max-width: 1425px) {
@@ -125,4 +134,9 @@ hr {
         flex-direction: row; 
         justify-content: flex-end;
     }
-}      
+}
+
+.dataTables_wrapper {
+    z-index: 1 !important;
+    position: relative;
+}

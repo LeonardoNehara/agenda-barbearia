@@ -19,7 +19,12 @@ $router->post('/updatesituacaousuario', 'UsuarioController@updateSituacaoUsuario
 $router->post('/editarusuario', 'UsuarioController@editar');
 
 // Barbeiros
-$router->get('/barbeiros', 'BarbeiroController@index'); 
+$router->get('/barbeiros', 'BarbeiroController@index');
+$router->get('/getbarbeiros', 'BarbeiroController@getBarbeiros'); 
+$router->get('/getbarbeirosativos', 'BarbeiroController@getBarbeirosAtivos');
+$router->post('/cadbarbeiro', 'BarbeiroController@cadastro');
+$router->post('/updateSituacaoBarbeiro', 'BarbeiroController@updateSituacaoBarbeiro');
+$router->post('/editarbarbeiro', 'BarbeiroController@editar');
 
 // Serviços
 $router->get('/servicos', 'ServicoController@index');
