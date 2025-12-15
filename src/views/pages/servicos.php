@@ -39,5 +39,7 @@
     </div>
 </main>
 
-</body>
+<script>
+    const base = '<?= $base; ?>';
+</script>
 <script src="<?= $base; ?>/js/servico.js"></script>
