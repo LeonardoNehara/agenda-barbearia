@@ -28,6 +28,11 @@ $router->post('/editarbarbeiro', 'BarbeiroController@editar');
 
 // Serviços
 $router->get('/servicos', 'ServicoController@index');
+$router->get('/getservicos', 'ServicoController@getServicos');
+$router->get('/getservicosativos', 'ServicoController@getServicosAtivos');
+$router->post('/cadServico', 'ServicoController@cadastro');
+$router->post('/editarservico', 'ServicoController@editar');
+$router->post('/updateSituacaoServico', 'ServicoController@updateSituacao');
 
 // Agendamentos
 $router->get('/agendamentos', 'AgendamentoController@index');
