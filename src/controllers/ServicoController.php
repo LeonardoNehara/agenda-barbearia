@@ -24,16 +24,40 @@ class ServicoController extends Controller {
         }
     }
 
-    public function getServicosAtivos() {
-        $cad = new Servico();
-        $ret = $cad->getServicosAtivos();
+    public function getServicosAtivos()
+    {
+        try {
+            $cad = new Servico();
+            $ret = $cad->getServicosAtivos();
 
-        if ($ret['sucesso'] == true) {
-            echo json_encode(array("success" => true,"ret" => $ret['result']));
-            die;
-        } else {
-            echo json_encode(array("success" => false,"ret" => $ret['result']));
-            die;
+            if (empty($ret) || !isset($ret['sucesso'])) {
+                return $this->jsonResponse([
+                    "success" => false,
+                    "ret" => null,
+                    "message" => "Erro ao obter serviços ativos"
+                ], 500);
+            }
+
+            if ($ret['sucesso'] === false) {
+                return $this->jsonResponse([
+                    "success" => false,
+                    "ret" => $ret['result'] ?? [],
+                    "message" => $ret['message'] ?? 'Requisição inválida'
+                ], 400);
+            }
+
+            return $this->jsonResponse([
+                "success" => true,
+                "ret" => $ret['result'] ?? [],
+                "message" => ""
+            ], 200);
+
+        } catch (\Throwable $e) {
+            return $this->jsonResponse([
+                "success" => false,
+                "ret" => null,
+                "message" => "Erro interno: " . $e->getMessage()
+            ], 500);
         }
     }
 
