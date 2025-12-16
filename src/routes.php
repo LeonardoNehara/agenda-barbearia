@@ -36,3 +36,7 @@ $router->post('/updateSituacaoServico', 'ServicoController@updateSituacao');
 
 // Agendamentos
 $router->get('/agendamentos', 'AgendamentoController@index');
+$router->post('/editarAgendamento', 'AgendamentoController@editar');
+$router->get('/getagendamentos', 'AgendamentoController@getAgendamentos');
+$router->post('/cadagendamento', 'AgendamentoController@cadastro');
+$router->post('/updateSituacaoAgendamento', 'AgendamentoController@updateSituacaoAgendamento');
