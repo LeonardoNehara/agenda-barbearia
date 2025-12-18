@@ -4,6 +4,7 @@ namespace src\controllers;
 use \core\Controller;
 use \src\Config;
 use src\models\Usuario;
+use src\validators\UsuarioValidator;
 
 class UsuarioController extends Controller {
 
@@ -11,34 +12,51 @@ class UsuarioController extends Controller {
             $this->render('usuario', ['base' => Config::BASE_DIR]);
     }
 
-    public function cadastro() {
-        $nome  = isset($_POST['nome'])  ? trim($_POST['nome'])  : null;
-        $login = isset($_POST['login']) ? trim($_POST['login']) : null;
-        $senha = isset($_POST['senha']) ? $_POST['senha'] : null;
+    public function cadastro()
+    {
+        $erro = UsuarioValidator::validar($_POST);
 
-        if (empty($nome) || empty($login) || empty($senha)) {
-            $this->jsonResponse(["success" => false, "message" => "Campos obrigatórios ausentes."], 400);
+        if ($erro) {
+            $this->jsonResponse([
+                "success" => false,
+                "message" => $erro
+            ], 400);
+            return;
         }
 
-        $hashedSenha = password_hash($senha, PASSWORD_DEFAULT);
+        $nome  = trim($_POST['nome']);
+        $login = trim($_POST['login']);
+        $senha = $_POST['senha'];
+
+        $usuario = new Usuario();
+
+        if ($usuario->loginExiste($login)) {
+            $this->jsonResponse([
+                "success" => false,
+                "message" => "Login já cadastrado."
+            ], 409);
+            return;
+        }
 
         $dados = [
             'nome'  => $nome,
             'login' => $login,
-            'senha' => $hashedSenha,
+            'senha' => password_hash($senha, PASSWORD_DEFAULT),
         ];
 
         try {
-            $cad = new Usuario();
-            $ret = $cad->cadastro($dados);
+            $ret = $usuario->cadastro($dados);
 
-            if (!empty($ret['sucesso'])) {
-                $this->jsonResponse(["success" => true, "ret" => $ret], 201);
-            } else {
-                $this->jsonResponse(["success" => false, "ret" => $ret], 400);
-            }
+            $this->jsonResponse([
+                "success" => true,
+                "ret"     => $ret
+            ], 201);
+
         } catch (\Throwable $e) {
-            $this->jsonResponse(["success" => false, "message" => $e->getMessage()], 500);
+            $this->jsonResponse([
+                "success" => false,
+                "message" => "Erro interno."
+            ], 500);
         }
     }
 
@@ -90,41 +108,42 @@ class UsuarioController extends Controller {
         }
     }
 
-    public function editar() {
-        $idusuario = isset($_POST['idusuario']) ? filter_var($_POST['idusuario'], FILTER_VALIDATE_INT) : null;
-        $login     = isset($_POST['login']) ? trim($_POST['login']) : null;
-        $nome      = isset($_POST['nome']) ? trim($_POST['nome']) : null;
-        $senha     = isset($_POST['senha']) ? $_POST['senha'] : null;
+    public function editar()
+    {
+        $erro = UsuarioValidator::validar($_POST, true);
 
-        if ($idusuario === false || $idusuario === null) {
-            $this->jsonResponse(["success" => false, "message" => "idusuario inválido."], 400);
+        if ($erro) {
+            $this->jsonResponse([
+                "success" => false,
+                "message" => $erro
+            ], 400);
+            return;
         }
 
         $dados = [
-            'idusuario' => $idusuario,
-            'login'     => $login,
-            'nome'      => $nome,
+            'idusuario' => filter_var($_POST['idusuario'], FILTER_VALIDATE_INT),
+            'nome'      => trim($_POST['nome']),
+            'login'     => trim($_POST['login']),
         ];
 
-        if (!empty($senha)) {
-            $dados['senha'] = password_hash($senha, PASSWORD_DEFAULT);
+        if (!empty($_POST['senha'])) {
+            $dados['senha'] = password_hash($_POST['senha'], PASSWORD_DEFAULT);
         }
 
         try {
-            $editar = new Usuario();
-            $result = $editar->editar($dados);
+            $usuario = new Usuario();
+            $ret = $usuario->editar($dados);
 
-            if (empty($result) || !isset($result['sucesso'])) {
-                $this->jsonResponse(["success" => false, "result" => $result], 500);
-            }
+            $this->jsonResponse([
+                "success" => $ret['sucesso'],
+                "ret"     => $ret
+            ], $ret['sucesso'] ? 200 : 400);
 
-            if (!$result['sucesso']) {
-                $this->jsonResponse(["success" => false, "result" => $result], 400);
-            } else {
-                $this->jsonResponse(["success" => true, "result" => $result], 200);
-            }
         } catch (\Throwable $e) {
-            $this->jsonResponse(["success" => false, "message" => $e->getMessage()], 500);
+            $this->jsonResponse([
+                "success" => false,
+                "message" => "Erro interno."
+            ], 500);
         }
     }
 

@@ -8,37 +8,39 @@ use PDO;
 use Throwable;
 
 class Usuario extends Model {
-    
+
     public function cadastro($dados)
     {
-        $nome = isset($dados['nome']) ? trim($dados['nome']) : null;
+        $nome  = isset($dados['nome']) ? trim($dados['nome']) : null;
         $login = isset($dados['login']) ? trim($dados['login']) : null;
-        $senha = isset($dados['senha']) ? $dados['senha'] : null;
+        $senha = $dados['senha'] ?? null;
+
+        $nome = $this->formatarNome($nome);
 
         if (empty($nome) || empty($login) || empty($senha)) {
             return ['sucesso' => false, 'result' => 'Campos obrigatórios ausentes.'];
         }
 
         try {
-            $check = Database::getInstance()->prepare("SELECT COUNT(1) as total FROM usuarios WHERE login = :login");
+            $check = Database::getInstance()
+                ->prepare("SELECT COUNT(1) AS total FROM usuario WHERE login = :login");
             $check->execute([':login' => $login]);
             $row = $check->fetch(PDO::FETCH_ASSOC);
+
             if ($row && intval($row['total']) > 0) {
                 return ['sucesso' => false, 'result' => 'Login já cadastrado.'];
             }
 
-            if (!password_get_info($senha)['algo']) {
-                $senhaHashed = password_hash($senha, PASSWORD_DEFAULT);
-            } else {
-                $senhaHashed = $senha;
-            }
+            $senhaHashed = password_get_info($senha)['algo']
+                ? $senha
+                : password_hash($senha, PASSWORD_DEFAULT);
 
-            $sql = "INSERT INTO usuarios (nome, login, senha, idsituacao)
+            $sql = "INSERT INTO usuario (nome, login, senha, idsituacao)
                     VALUES (:nome, :login, :senha, 1)";
 
             $stmt = Database::getInstance()->prepare($sql);
             $stmt->execute([
-                ':nome' => $nome,
+                ':nome'  => $nome,
                 ':login' => $login,
                 ':senha' => $senhaHashed
             ]);
@@ -52,9 +54,17 @@ class Usuario extends Model {
     public function getusuarios()
     {
         try {
-            $sql = "SELECT u.idusuario, u.nome, u.login, u.idsituacao,
-                        CASE WHEN u.idsituacao = 1 THEN 'Ativo' ELSE 'Inativo' END AS descricao
-                    FROM usuarios u";
+            $sql = "SELECT 
+                        u.id, 
+                        u.nome, 
+                        u.login, 
+                        u.idsituacao,
+                        CASE 
+                            WHEN u.idsituacao = 1 THEN 'Ativo' 
+                            ELSE 'Inativo' 
+                        END AS descricao
+                    FROM usuario u";
+
             $stmt = Database::getInstance()->prepare($sql);
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -67,31 +77,34 @@ class Usuario extends Model {
 
     public function editar($dados)
     {
-        $idusuario = isset($dados['idusuario']) ? intval($dados['idusuario']) : null;
-        $nome = isset($dados['nome']) ? trim($dados['nome']) : null;
+        $id    = isset($dados['id']) ? intval($dados['id']) : null;
+        $nome  = isset($dados['nome']) ? trim($dados['nome']) : null;
         $login = isset($dados['login']) ? trim($dados['login']) : null;
-        $senha = isset($dados['senha']) ? $dados['senha'] : null; // pode estar vazio -> não altera
+        $senha = $dados['senha'] ?? null;
 
-        if (empty($idusuario) || empty($nome) || empty($login)) {
+        if (empty($id) || empty($nome) || empty($login)) {
             return ['sucesso' => false, 'result' => 'Parâmetros inválidos.'];
         }
 
         try {
-            $params = [':idusuario' => $idusuario, ':nome' => $nome, ':login' => $login];
+            $params = [
+                ':id'    => $id,
+                ':nome'  => $nome,
+                ':login' => $login
+            ];
+
             $setParts = "nome = :nome, login = :login";
 
             if (!empty($senha)) {
-                // Hash se necessário
-                if (!password_get_info($senha)['algo']) {
-                    $senhaHashed = password_hash($senha, PASSWORD_DEFAULT);
-                } else {
-                    $senhaHashed = $senha;
-                }
+                $senhaHashed = password_get_info($senha)['algo']
+                    ? $senha
+                    : password_hash($senha, PASSWORD_DEFAULT);
+
                 $setParts .= ", senha = :senha";
                 $params[':senha'] = $senhaHashed;
             }
 
-            $sql = "UPDATE usuarios SET {$setParts} WHERE idusuario = :idusuario";
+            $sql = "UPDATE usuario SET {$setParts} WHERE id = :id";
             $stmt = Database::getInstance()->prepare($sql);
             $stmt->execute($params);
 
@@ -103,19 +116,22 @@ class Usuario extends Model {
 
     public function updateSituacao($id, $idsituacao)
     {
-        $idusuario = intval($id);
-        $idsitu = intval($idsituacao);
+        $idUsuario  = intval($id);
+        $idsituacao = intval($idsituacao);
 
-        if ($idusuario <= 0) {
-            return ['sucesso' => false, 'result' => 'idusuario inválido.'];
+        if ($idUsuario <= 0) {
+            return ['sucesso' => false, 'result' => 'ID inválido.'];
         }
 
         try {
-            $sql = "UPDATE usuarios SET idsituacao = :idsituacao WHERE idusuario = :idusuario";
+            $sql = "UPDATE usuario 
+                    SET idsituacao = :idsituacao 
+                    WHERE id = :id";
+
             $stmt = Database::getInstance()->prepare($sql);
             $stmt->execute([
-                ':idsituacao' => $idsitu,
-                ':idusuario' => $idusuario
+                ':idsituacao' => $idsituacao,
+                ':id' => $idUsuario
             ]);
 
             return ['sucesso' => true, 'result' => 'Situação do usuário atualizada com sucesso'];
@@ -124,4 +140,21 @@ class Usuario extends Model {
         }
     }
 
+    public function loginExiste($login)
+    {
+        $sql = "SELECT id FROM usuario WHERE login = :login LIMIT 1";
+        $stmt = Database::getInstance()->prepare($sql);
+        $stmt->bindValue(':login', $login);
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
+
+    private function formatarNome(string $nome): string
+    {
+        $nome = trim($nome);
+
+        return mb_strtoupper(mb_substr($nome, 0, 1, 'UTF-8'), 'UTF-8')
+            . mb_substr($nome, 1, null, 'UTF-8');
+    }
 }

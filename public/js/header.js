@@ -57,14 +57,24 @@ document.addEventListener('DOMContentLoaded', function () {
 document.addEventListener('DOMContentLoaded', function () {
     const logoutButton = document.querySelector('.btn-logout');
 
-    if (logoutButton) {
-        logoutButton.addEventListener('click', function (e) {
-            e.preventDefault();
-            const confirmar = confirm('Você realmente quer sair?');
-            if (confirmar) {
+    if (!logoutButton) return;
+
+    logoutButton.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        Swal.fire({
+            title: 'Sair do sistema?',
+            text: 'Você realmente deseja encerrar a sessão?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sim, sair',
+            cancelButtonText: 'Cancelar',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
                 window.location.href = logoutButton.href;
             }
         });
-    }
+    });
 });
 
