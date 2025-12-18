@@ -102,18 +102,13 @@ $(document).ready(function () {
             tempoMinutos: $('#tempoMinutos').val()
         };
 
-        if (!dados.nome || !dados.valor || !dados.tempoMinutos) {
-            Swal.fire({ icon: "warning", title: "Atenção!", text: "Preencha todos os campos." });
-            return;
-        }
-
-        if (Number(dados.valor) <= 0) {
-            Swal.fire({ icon: "warning", title: "Atenção!", text: "O valor deve ser maior que zero." });
-            return;
-        }
-
-        if (Number(dados.tempoMinutos) <= 0) {
-            Swal.fire({ icon: "warning", title: "Atenção!", text: "O tempo deve ser maior que zero." });
+        const erro = validarServico(dados, id ? 'edicao' : 'cadastro');
+        if (erro) {
+            Swal.fire({
+                icon: "warning",
+                title: "Atenção!",
+                text: erro
+            });
             return;
         }
 
@@ -178,6 +173,34 @@ $(document).ready(function () {
             if (result.isConfirmed) updateSituacao(id, novaSit);
         });
     });
+
+    function validarServico(dados) {
+
+        if (!dados.nome || dados.valor === '' || dados.tempoMinutos === '') {
+            return "Nome, valor e tempo são obrigatórios.";
+        }
+
+        if (dados.nome.length < 3 || dados.nome.length > 100) {
+            return "O nome do serviço deve ter entre 3 e 100 caracteres.";
+        }
+
+        const regexNome = /^[a-zA-ZÀ-ÿ0-9\s]+$/u;
+        if (!regexNome.test(dados.nome)) {
+            return "O nome do serviço contém caracteres inválidos.";
+        }
+
+        const valor = Number(dados.valor);
+        if (isNaN(valor) || valor <= 0) {
+            return "O valor deve ser um número maior que zero.";
+        }
+
+        const tempo = Number(dados.tempoMinutos);
+        if (!Number.isInteger(tempo) || tempo <= 0) {
+            return "O tempo deve ser um número inteiro maior que zero.";
+        }
+
+        return null;
+    }
 
     function updateSituacao(id, situacao) {
 
