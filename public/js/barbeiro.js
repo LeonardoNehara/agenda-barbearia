@@ -100,9 +100,35 @@ $(document).ready(function () {
 
     function validarTelefone(telefone) {
         const apenasNumeros = (telefone || '').replace(/\D/g, '');
-        return apenasNumeros.length === 11;
+        return apenasNumeros.length === 10 || apenasNumeros.length === 11;
     }
 
+    function nomeValido(nome) {
+        return /^[A-Za-zÀ-ÿ\s]+$/.test(nome);
+    }
+
+    function validarBarbeiro(dados) {
+        const nome = (dados.nome || '').trim();
+        const telefone = (dados.telefone || '').replace(/\D/g, '');
+
+        if (!nome || !telefone) {
+            return "Nome e telefone são obrigatórios.";
+        }
+
+        if (nome.length < 3 || nome.length > 100) {
+            return "O nome deve ter entre 3 e 100 caracteres.";
+        }
+
+        if (!nomeValido(nome)) {
+            return "O nome não pode conter números ou caracteres especiais.";
+        }
+
+        if (!validarTelefone(telefone)) {
+            return "Telefone inválido! O número de telefone deve conter 11 dígitos (incluindo o DDD).";
+        }
+
+        return null;
+    }
     $('#cadastro').on('click', function (e) {
         e.preventDefault();
 
@@ -112,13 +138,13 @@ $(document).ready(function () {
             telefone: $('#telefone').val().replace(/[^\d]/g, '')
         };
 
-        if (!app.validarCampos(dados)) {
-            Swal.fire({ icon: "warning", title: "Atenção!!", text: "Preencha todos os campos!" });
-            return;
-        }
-
-        if (!validarTelefone(dados.telefone)) {
-            Swal.fire({ icon: "warning", title: "Atenção!!", text: "Telefone inválido! O número de telefone deve conter 11 dígitos (incluindo o DDD)." });
+        const erro = validarBarbeiro(dados);
+        if (erro) {
+            Swal.fire({
+                icon: "warning",
+                title: "Atenção!",
+                text: erro
+            });
             return;
         }
 
@@ -175,7 +201,6 @@ $(document).ready(function () {
         $('#cadastro').text('Atualizar');
     }
 
-    // alternar situação
     $('#mytable').on('click', '.btn-toggle', function (e) {
         e.preventDefault();
         const $btn = $(this);
