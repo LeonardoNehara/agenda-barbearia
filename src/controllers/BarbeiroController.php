@@ -4,6 +4,7 @@ namespace src\controllers;
 use \core\Controller;
 use \src\Config;
 use src\models\Barbeiro;
+use src\validators\BarbeiroValidator;
 
 class BarbeiroController extends Controller {
 
@@ -13,12 +14,19 @@ class BarbeiroController extends Controller {
 
     public function cadastro() {
         try {
-            $nome = isset($_POST['nome']) ? trim($_POST['nome']) : null;
-            $telefone = isset($_POST['telefone']) ? trim($_POST['telefone']) : null;
+            $erro = BarbeiroValidator::validarCadastro($_POST);
 
-            if (empty($nome) || empty($telefone)) {
-                $this->jsonResponse(["success" => false, "ret" => null, "message" => "Campos obrigatórios ausentes."], 400);
+            if ($erro) {
+                $this->jsonResponse([
+                    "success" => false,
+                    "ret"     => null,
+                    "message" => $erro
+                ], 400);
+                return;
             }
+
+            $nome     = trim($_POST['nome']);
+            $telefone = trim($_POST['telefone']);
 
             $cad = new Barbeiro();
 
