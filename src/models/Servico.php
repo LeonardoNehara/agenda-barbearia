@@ -118,20 +118,29 @@ class Servico extends Model
                 SET nome = :nome, valor = :valor, tempo_minutos = :tempo_minutos
                 WHERE id = :id
             ");
-            $sql->bindValue(':id', $id);
+
+            $sql->bindValue(':id', $id, \PDO::PARAM_INT);
             $sql->bindValue(':nome', $nome);
             $sql->bindValue(':valor', $valor);
-            $sql->bindValue(':tempo_minutos', $tempoMinutos);
+            $sql->bindValue(':tempo_minutos', $tempoMinutos, \PDO::PARAM_INT);
             $sql->execute();
+
+            if ($sql->rowCount() === 0) {
+                return [
+                    'sucesso' => false,
+                    'result'  => 'Serviço não encontrado.'
+                ];
+            }
 
             return [
                 'sucesso' => true,
-                'result' => 'Serviço atualizado com sucesso!'
+                'result'  => 'Serviço atualizado com sucesso!'
             ];
-        } catch (Throwable $error) {
+
+        } catch (\Throwable $error) {
             return [
                 'sucesso' => false,
-                'result' => 'Falha ao atualizar serviço: ' . $error->getMessage()
+                'result'  => 'Falha ao atualizar serviço: ' . $error->getMessage()
             ];
         }
     }

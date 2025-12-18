@@ -4,6 +4,7 @@ namespace src\controllers;
 use \core\Controller;
 use \src\Config;
 use src\models\Servico;
+use src\validators\ServicoValidator;
 
 class ServicoController extends Controller {
 
@@ -61,28 +62,42 @@ class ServicoController extends Controller {
         }
     }
 
-    public function cadastro() {
+    public function cadastro()
+    {
+        $erro = ServicoValidator::validarCadastro($_POST);
+
+        if ($erro) {
+            echo json_encode([
+                "success" => false,
+                "message" => $erro
+            ]);
+            die;
+        }
+
         $nome = $_POST["nome"];
         $valor = $_POST["valor"];
         $tempoMinutos = $_POST["tempoMinutos"];
+
         $cad = new Servico();
         $existe = $cad->verificarServico($nome);
-        
+
         if ($existe['result']['existeServico'] == 1) {
-            echo json_encode(array("success" => false,"ret" => $existe));
+            echo json_encode([
+                "success" => false,
+                "message" => "Serviço já cadastrado."
+            ], 409);
             die;
         }
 
         $ret = $cad->cadastro($nome, $valor, $tempoMinutos);
-        
-        if ($ret['sucesso'] == true) {
-            echo json_encode(array("success" => true,"ret" => $ret));
-            die;
-        } else {
-            echo json_encode(array("success" => false,"ret" => $ret));
-            die;
-        }   
+
+        echo json_encode([
+            "success" => $ret['sucesso'],
+            "ret" => $ret
+        ], 201);
+        die;
     }
+
 
     public function updateSituacao() {
         $id = $_POST['id'];
@@ -99,20 +114,30 @@ class ServicoController extends Controller {
         }
     }
 
-    public function editar() {
+    public function editar()
+    {
+        $erro = ServicoValidator::validarEdicao($_POST);
+
+        if ($erro) {
+            echo json_encode([
+                "success" => false,
+                "message" => $erro
+            ]);
+            die;
+        }
+
         $id = $_POST['id'];
         $nome = $_POST['nome'];
         $valor = $_POST['valor'];
         $tempoMinutos = $_POST['tempoMinutos'];
+
         $editar = new Servico();
         $result = $editar->editar($id, $nome, $valor, $tempoMinutos);
 
-        if (!$result['sucesso']) {
-            echo json_encode(array( "success" => false, "result" => $result ));
-            die;
-        } else {
-            echo json_encode(array( "success" => true, "result" => $result ));
-            die;
-        }  
+        echo json_encode([
+            "success" => $result['sucesso'],
+            "result" => $result
+        ], 201);
+        die;
     }
 }
