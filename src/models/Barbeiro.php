@@ -158,4 +158,37 @@ class Barbeiro extends Model {
             ];
         }
     }
+
+    public function verificarTelefoneEdicao($telefone, $id)
+    {
+        try {
+            $sql = Database::getInstance()->prepare("
+                SELECT CASE 
+                    WHEN EXISTS (
+                        SELECT 1 
+                        FROM barbeiro 
+                        WHERE telefone = :telefone 
+                        AND id != :id
+                    ) THEN 1 
+                    ELSE 0 
+                END AS existeTelefone
+            ");
+
+            $sql->bindValue(':telefone', $telefone);
+            $sql->bindValue(':id', $id, PDO::PARAM_INT);
+            $sql->execute();
+
+            $result = $sql->fetch(PDO::FETCH_ASSOC);
+
+            return [
+                'sucesso' => true,
+                'result'  => $result
+            ];
+        } catch (Throwable $error) {
+            return [
+                'sucesso' => false,
+                'result'  => 'Falha ao verificar telefone (edição): ' . $error->getMessage()
+            ];
+        }
+    }
 }

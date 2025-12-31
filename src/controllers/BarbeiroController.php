@@ -122,6 +122,17 @@ class BarbeiroController extends Controller {
 
     public function editar() {
         try {
+            $erro = BarbeiroValidator::validarEdicao($_POST);
+
+            if ($erro) {
+                $this->jsonResponse([
+                    "success" => false,
+                    "ret"     => null,
+                    "message" => $erro
+                ], 400);
+                return;
+            }
+
             $id = isset($_POST['id']) ? filter_var($_POST['id'], FILTER_VALIDATE_INT) : null;
             $nome = isset($_POST['nome']) ? trim($_POST['nome']) : null;
             $telefone = isset($_POST['telefone']) ? trim($_POST['telefone']) : null;
@@ -131,6 +142,19 @@ class BarbeiroController extends Controller {
             }
 
             $editar = new Barbeiro();
+            
+            $existe = $editar->verificarTelefoneEdicao($telefone, $id);
+            if (
+                $existe['sucesso'] === true &&
+                !empty($existe['result']['existeTelefone']) &&
+                $existe['result']['existeTelefone'] == 1
+            ) {
+                $this->jsonResponse([
+                    "success" => false,
+                    "ret"     => null,
+                    "message" => "Telefone já cadastrado para outro barbeiro."
+                ], 409);
+            }
             $result = $editar->editar($id, $nome, $telefone);
 
             if (empty($result) || !isset($result['sucesso'])) {
