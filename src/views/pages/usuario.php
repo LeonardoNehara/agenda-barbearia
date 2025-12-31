@@ -1,7 +1,6 @@
 <?php $render('header'); ?>
 <link rel="stylesheet" href="<?= $base; ?>/css/form.css">
 <main class='main-div' style="width:100%;">
-
     <div class="form-container">
         <div class="header-container">
             <button id="novo" class="btn-custom" onclick="limparForm()">Novo</button>
@@ -43,4 +42,6 @@
 <script>
     const base = "<?= $base ?>";
 </script>
-<script src="<?= $base; ?>/js/usuario.js"></script>
+<script src="<?= $base; ?>/js/usuario/usuario.js"></script>
+<script src="<?= $base; ?>/js/usuario/usuario.table.js"></script>
+<script src="<?= $base; ?>/js/usuario/usuario.form.js"></script>

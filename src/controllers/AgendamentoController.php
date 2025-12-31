@@ -4,6 +4,7 @@ namespace src\controllers;
 use \core\Controller;
 use \src\Config;
 use src\models\Agendamento;
+use src\validators\AgendamentoValidator;
 
 class AgendamentoController extends Controller {
 
@@ -24,37 +25,30 @@ class AgendamentoController extends Controller {
         die;
     } 
 
-    public function cadastro() {
-        $cliente = $_POST["nome_completo"];
-        $telefone = $_POST["telefone"];
-        $datahora = $_POST["datahora"];
-        $barbeiro_id = $_POST["barbeiro_id"];
-        $servico_id = $_POST["servico_id"];
-        $agendamento = new Agendamento();
+    public function cadastro()
+    {
+        $dados = $_POST;
 
-        $date = new \DateTime($datahora);
-        $now = new \DateTime();
-        if ($date < $now) {
-            echo json_encode(array( "success" => false, "ret" => "Não é possível agendar em uma data e hora no passado." ));
+        $erro = AgendamentoValidator::validar($dados);
+        if ($erro) {
+            echo json_encode(["success" => false, "ret" => $erro]);
             die;
         }
-        $datahoraFormatada = $date->format('d/m/Y H:i');
 
-        $barbeiroNome = $agendamento->getBarbeiroNome($barbeiro_id);
-        $servicoNome = $agendamento->getServicoNome($servico_id);
+        $agendamento = new Agendamento();
 
-        $ret = $agendamento->cadastro($cliente, $telefone, $barbeiro_id, $servico_id, $datahora);
-        
-        if ($ret['sucesso'] == true) {
-            $mensagem = "Olá $cliente, seu agendamento foi confirmado!\n" .
-                        "Data e Hora: $datahoraFormatada\n" . 
-                        "Barbeiro: $barbeiroNome\n" .
-                        "Serviço: $servicoNome.\n" .
-                        "Obrigado por escolher nossa barbearia!";
-        
-            echo json_encode(array( "success" => true, "ret" => $ret ));
+        $ret = $agendamento->cadastro(
+            $dados['nome_completo'],
+            $dados['telefone'],
+            $dados['barbeiro_id'],
+            $dados['servico_id'],
+            $dados['datahora']
+        );
+
+        if ($ret['sucesso']) {
+            echo json_encode(["success" => true, "ret" => $ret]);
         } else {
-            echo json_encode(array( "success" => false, "ret" => $ret ));
+            echo json_encode(["success" => false, "ret" => $ret]);
         }
         die;
     }
@@ -85,23 +79,32 @@ class AgendamentoController extends Controller {
         }
     }
 
-    public function editar() {
-        $id = $_POST['id'];
-        $cliente = $_POST['nome_completo'];
-        $telefone = $_POST['telefone'];
-        $barbeiro_id = $_POST['barbeiro_id'];
-        $servico_id = $_POST['servico_id'];
-        $datahora = $_POST['datahora'];
+    public function editar()
+    {
+        $dados = $_POST;
 
-        $agendamento = new Agendamento();
-        $result = $agendamento->editar($id, $cliente, $telefone, $barbeiro_id, $servico_id, $datahora);
-
-        if (!$result['sucesso']) {
-            echo json_encode(array( "success" => false, "result" => $result ));
-            die;
-        } else {
-            echo json_encode(array( "success" => true, "result" => $result ));
+        $erro = AgendamentoValidator::validar($dados, true);
+        if ($erro) {
+            echo json_encode(["success" => false, "ret" => $erro]);
             die;
         }
+
+        $agendamento = new Agendamento();
+
+        $result = $agendamento->editar(
+            $dados['id'],
+            $dados['nome_completo'],
+            $dados['telefone'],
+            $dados['barbeiro_id'],
+            $dados['servico_id'],
+            $dados['datahora']
+        );
+
+        if ($result['sucesso']) {
+            echo json_encode(["success" => true, "result" => $result]);
+        } else {
+            echo json_encode(["success" => false, "result" => $result]);
+        }
+        die;
     }
 }
