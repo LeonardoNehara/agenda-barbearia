@@ -38,4 +38,6 @@
 <script>
     const base = '<?= $base; ?>';
 </script>
-<script src="<?= $base; ?>/js/barbeiro.js"></script>
+<script src="<?= $base; ?>/js/barbeiro/barbeiro.form.js"></script>
+<script src="<?= $base; ?>/js/barbeiro/barbeiro.js"></script>
+<script src="<?= $base; ?>/js/barbeiro/barbeiro.table.js"></script>

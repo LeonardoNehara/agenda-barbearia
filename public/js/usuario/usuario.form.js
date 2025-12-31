@@ -1,38 +1,3 @@
-function validarUsuario(dados, edicao = false) {
-
-    const nome  = dados.nome?.trim();
-    const login = dados.login?.trim();
-    const senha = dados.senha;
-
-    if (!nome || !login) {
-        return 'Campos obrigatórios ausentes.';
-    }
-
-    if (nome.length < 3 || nome.length > 100) {
-        return 'Nome inválido.';
-    }
-
-    if (!/^[a-zA-Z0-9._]+$/.test(login)) {
-        return 'Login inválido.';
-    }
-
-    if (!edicao) {
-        if (!senha) {
-            return 'Senha é obrigatória.';
-        }
-
-        if (senha.length < 8) {
-            return 'Senha deve ter no mínimo 8 caracteres.';
-        }
-    }
-
-    if (edicao && senha && senha.length < 8) {
-        return 'Senha deve ter no mínimo 8 caracteres.';
-    }
-
-    return null;
-}
-
 function mostrarSenha() {
     const input = document.getElementById('senha');
     input.type = input.type === 'password' ? 'text' : 'password';
@@ -86,4 +51,39 @@ function limparForm() {
 
     $('#form-title').text('Cadastrando Usuários');
     $('#cadastro').text('Gravar');
+}
+
+function validarUsuario(dados, edicao = false) {
+
+    const nome  = dados.nome?.trim();
+    const login = dados.login?.trim();
+    const senha = dados.senha;
+
+    if (!nome || !login) {
+        return 'Campos obrigatórios ausentes.';
+    }
+
+    if (nome.length < 3 || nome.length > 100) {
+        return 'Nome inválido.';
+    }
+
+    if (!/^[a-zA-Z0-9._]+$/.test(login)) {
+        return 'Login inválido.';
+    }
+
+    if (!edicao) {
+        if (!senha) {
+            return 'Senha é obrigatória.';
+        }
+
+        if (senha.length < 8) {
+            return 'Senha deve ter no mínimo 8 caracteres.';
+        }
+    }
+
+    if (edicao && senha && senha.length < 8) {
+        return 'Senha deve ter no mínimo 8 caracteres.';
+    }
+
+    return null;
 }
