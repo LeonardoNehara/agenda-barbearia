@@ -14,8 +14,8 @@ class Login extends Model
         try {
             $pdo = Database::getInstance();
 
-            $sql = "SELECT u.idusuario, u.nome, u.senha
-                    FROM usuarios u
+            $sql = "SELECT u.id, u.nome, u.senha
+                    FROM usuario u
                     WHERE u.login = :login
                       AND u.idsituacao = 1
                     LIMIT 1";

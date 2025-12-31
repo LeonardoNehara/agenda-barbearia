@@ -61,7 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 credentials: 'same-origin'
             });
 
-            // tenta converter pra JSON
             const json = await response.json();
 
             console.log('Resposta do servidor:', json);

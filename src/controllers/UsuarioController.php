@@ -121,7 +121,7 @@ class UsuarioController extends Controller {
         }
 
         $dados = [
-            'idusuario' => filter_var($_POST['idusuario'], FILTER_VALIDATE_INT),
+            'id' => filter_var($_POST['id'], FILTER_VALIDATE_INT),
             'nome'      => trim($_POST['nome']),
             'login'     => trim($_POST['login']),
         ];
@@ -148,7 +148,7 @@ class UsuarioController extends Controller {
     }
 
     public function updateSituacaoUsuario() {
-        $id = isset($_POST['idusuario']) ? filter_var($_POST['idusuario'], FILTER_VALIDATE_INT) : null;
+        $id = isset($_POST['id']) ? filter_var($_POST['id'], FILTER_VALIDATE_INT) : null;
         $idsituacao = isset($_POST['idsituacao']) ? filter_var($_POST['idsituacao'], FILTER_VALIDATE_INT) : null;
 
         if ($id === false || $id === null || $idsituacao === false || $idsituacao === null) {
