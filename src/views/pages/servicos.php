@@ -3,7 +3,7 @@
 <main class="main-div" style="width: 100%;">
     <div class="form-container">
         <div class="header-container">
-            <button id="novo" class="btn-custom" onclick="limparForm()">Novo</button>
+            <button id="novo" class="btn-custom">Novo</button>
             <h5 id="form-title" class="form-cad">Cadastrando Serviço</h5>
             <h5 class="media-h5"> </h5>
         </div>
@@ -42,4 +42,6 @@
 <script>
     const base = '<?= $base; ?>';
 </script>
-<script src="<?= $base; ?>/js/servico.js"></script>
+<script src="<?= $base; ?>/js/servicos/servico.form.js"></script>
+<script src="<?= $base; ?>/js/servicos/servico.js"></script>
+<script src="<?= $base; ?>/js/servicos/servico.table.js"></script>
