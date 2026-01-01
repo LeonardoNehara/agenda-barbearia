@@ -42,6 +42,6 @@
 <script>
     const base = "<?= $base ?>";
 </script>
-<script src="<?= $base; ?>/js/usuario/usuario.js"></script>
-<script src="<?= $base; ?>/js/usuario/usuario.table.js"></script>
-<script src="<?= $base; ?>/js/usuario/usuario.form.js"></script>
+<script src="<?= $base; ?>/js/usuarios/usuario.js"></script>
+<script src="<?= $base; ?>/js/usuarios/usuario.table.js"></script>
+<script src="<?= $base; ?>/js/usuarios/usuario.form.js"></script>
