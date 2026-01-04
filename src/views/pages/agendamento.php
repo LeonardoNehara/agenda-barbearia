@@ -3,7 +3,6 @@
 
 <main class="main-div" style="width: 100%;">
 
-    <!-- FORMULÁRIO -->
     <div class="form-container">
         <div class="header-container">
             <button id="novo" class="btn-custom" onclick="limparForm()">Novo</button>
@@ -82,7 +81,6 @@
         </div>
     </div>
 
-    <!-- LISTAGEM -->
     <div class="form-container">
         <h1><strong>Agendamentos</strong></h1>
         <h4 class="titulo">Gestão de agendamentos:</h4>
@@ -111,4 +109,7 @@
 <script>
     const base = '<?= $base; ?>';
 </script>
-<script src="<?= $base; ?>/js/agendamento.js"></script>
+<script src="<?= $base; ?>/js/agendamentos/agendamento.form.js"></script>
+<script src="<?= $base; ?>/js/agendamentos/agendamento.js"></script>
+<script src="<?= $base; ?>/js/agendamentos/agendamento.table.js"></script>
+<script src="<?= $base; ?>/js/utils/telefone.js"></script>

@@ -29,6 +29,13 @@ class AgendamentoController extends Controller {
     {
         $dados = $_POST;
 
+        if (!empty($dados['datahora'])) {
+            $dados['datahora'] = date(
+                'Y-m-d H:i:s',
+                strtotime($dados['datahora'])
+            );
+        }
+
         $erro = AgendamentoValidator::validar($dados);
         if ($erro) {
             echo json_encode(["success" => false, "ret" => $erro]);

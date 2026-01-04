@@ -2,7 +2,7 @@ $(document).ready(function () {
     window.apiCadastro = base + '/cadbarbeiro';
     window.apiEditar   = base + '/editarbarbeiro';
 
-    $('#telefone').mask('(00) 00000-0000', { placeholder: '(  ) _____-____' });
+    aplicarMascaraTelefone('#telefone');
 
     $('#cadastro').on('click', salvarBarbeiro);
     $('#mytable').on('click', '.btn-edit', editarBarbeiro);
