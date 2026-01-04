@@ -41,3 +41,4 @@
 <script src="<?= $base; ?>/js/barbeiros/barbeiro.form.js"></script>
 <script src="<?= $base; ?>/js/barbeiros/barbeiro.js"></script>
 <script src="<?= $base; ?>/js/barbeiros/barbeiro.table.js"></script>
+<script src="<?= $base; ?>/js/utils/telefone.js"></script>

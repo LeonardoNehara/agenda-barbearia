@@ -40,7 +40,6 @@ $(document).ready(function () {
     });
 });
 
-/* Helpers */
 function formatTelefone(data) {
     if (!data) return '';
     const only = String(data).replace(/\D/g, '');
