@@ -12,13 +12,14 @@ function initTabelaUsuarios() {
             url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json'
         },
         columns: [
-            { data: 'id', title: 'ID', className: 'text-center', width: '6%' },
-            { data: 'nome', title: 'Nome' },
-            { data: 'login', title: 'Login', className: 'text-center' },
+            { data: 'id', title: 'ID', className: 'text-center', width: '6%', responsivePriority: 0 },
+            { data: 'nome', title: 'Nome', responsivePriority: 1 },
+            { data: 'login', title: 'Login', className: 'text-center', responsivePriority: 4 },
             {
                 data: 'idsituacao',
                 title: 'Situação',
                 className: 'text-center',
+                responsivePriority: 3,
                 render: d =>
                     d == 1
                         ? '<span class="badge-status ativo">Ativo</span>'
@@ -28,6 +29,7 @@ function initTabelaUsuarios() {
                 data: null,
                 orderable: false,
                 className: 'text-center',
+                responsivePriority: 2,
                 render: row => `
                     <button class="btn btn-sm btn btn-edit">
                         <i class="fa fa-pencil"></i>
@@ -41,7 +43,6 @@ function initTabelaUsuarios() {
         ]
     });
 
-    // editar
     $('#mytable').on('click', '.btn-edit', function () {
         const row = tabelaUsuarios.row($(this).closest('tr')).data();
         if (!row) return;

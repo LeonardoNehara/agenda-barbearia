@@ -14,27 +14,30 @@ window.ServicoTable = (function () {
                 url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json"
             },
             columns: [
-                { data: 'id', title: 'ID', className: 'text-center', width: '6%' },
+                { data: 'id', title: 'ID', className: 'text-center', width: '6%' ,  responsivePriority: 5},
 
-                { data: 'nome', title: 'Nome' },
+                { data: 'nome', title: 'Nome', responsivePriority: 0},
 
                 {
                     data: 'valor',
                     title: 'Valor (R$)',
                     className: 'text-center',
+                    responsivePriority: 3,
                     render: v => `<strong>R$ ${Number(v || 0).toFixed(2)}</strong>`
                 },
 
                 {
                     data: 'tempoMinutos',
                     title: 'Tempo (min)',
-                    className: 'text-center'
+                    className: 'text-center',
+                    responsivePriority: 4
                 },
 
                 {
                     data: 'situacao',
                     title: 'Status',
                     className: 'text-center',
+                    responsivePriority: 2,
                     render: sit => {
                         sit = String(sit).toLowerCase();
                         return sit === 'ativo'
@@ -48,6 +51,7 @@ window.ServicoTable = (function () {
                     title: 'Ações',
                     className: 'text-center',
                     orderable: false,
+                    responsivePriority: 1,
                     render: row => {
 
                         const ativo = String(row.situacao).toLowerCase() === 'ativo';

@@ -193,3 +193,12 @@ h5 {
         margin-left: 10px;
     }
 }
+
+@media (max-width: 768px) {
+    .btn-edit,
+    .btn-toggle {
+        width: 44px;
+        height: 44px;
+        margin: 2px;
+    }
+}

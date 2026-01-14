@@ -11,22 +11,25 @@ $(document).ready(function () {
             url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json"
         },
         columns: [
-            { data: 'id', title: 'ID', className: 'text-center', width: '6%' },
+            { data: 'id', title: 'ID', className: 'text-center', width: '6%', responsivePriority: 0 },
             {
                 data: 'nome',
                 title: 'Nome',
-                render: d => `<strong>${d || ''}</strong>`
+                render: d => `<strong>${d || ''}</strong>`,
+                responsivePriority: 1
             },
             {
                 data: 'telefone',
                 title: 'Telefone',
                 className: 'text-center',
+                responsivePriority: 5,
                 render: formatTelefone
             },
             {
                 data: null,
                 title: 'Status',
                 className: 'text-center',
+                responsivePriority: 4,
                 render: renderStatus
             },
             {
@@ -34,6 +37,7 @@ $(document).ready(function () {
                 title: 'Ações',
                 className: 'text-center',
                 orderable: false,
+                responsivePriority: 2,
                 render: renderAcoes
             }
         ]
