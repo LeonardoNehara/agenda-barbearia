@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agenda Barbearia</title>
+    <link rel="icon" type="image/x-icon" href="<?= $base ?>/img/favicon.ico">
     <!-- ESTILOS PRINCIPAIS DO SISTEMA -->
-    
     <link rel="stylesheet" href="<?= $base; ?>/css/header/botoes.css">
     <link rel="stylesheet" href="<?= $base; ?>/css/header/header.css">
 
