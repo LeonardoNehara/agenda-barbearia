@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agenda Barbearia</title>
     <!-- ESTILOS PRINCIPAIS DO SISTEMA -->
-    <link rel="stylesheet" href="css/login.css">
+    
     <link rel="stylesheet" href="<?= $base; ?>/css/header/botoes.css">
     <link rel="stylesheet" href="<?= $base; ?>/css/header/header.css">
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 12/11/2025 às 23:51
+-- Tempo de geração: 19/03/2026 às 19:41
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.0.30
 
@@ -172,11 +172,11 @@ INSERT INTO `servico` (`id`, `nome`, `valor`, `tempo_minutos`, `idsituacao`) VAL
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `usuarios`
+-- Estrutura para tabela `usuario`
 --
 
-CREATE TABLE `usuarios` (
-  `idusuario` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE `usuario` (
+  `id` bigint(20) UNSIGNED NOT NULL,
   `nome` varchar(200) NOT NULL,
   `login` varchar(200) NOT NULL,
   `senha` varchar(300) NOT NULL,
@@ -184,12 +184,13 @@ CREATE TABLE `usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `usuarios`
+-- Despejando dados para a tabela `usuario`
 --
 
-INSERT INTO `usuarios` (`idusuario`, `nome`, `login`, `senha`, `idsituacao`) VALUES
+INSERT INTO `usuario` (`id`, `nome`, `login`, `senha`, `idsituacao`) VALUES
 (1, 'Leonardo Nehara', 'Leonardo.Nehara', 'b4d2459a8fc2c8d3210aff517588962c', 1),
-(2, 'Admin', 'Admin', '0e7517141fb53f21ee439b355b5a1d0a', 1);
+(2, 'Admin', 'Admin', '0e7517141fb53f21ee439b355b5a1d0a', 1),
+(3, 'Leonardo', 'nehara', '$2y$10$ElJzyFNoC68RGMfZm3OVmeY0H0gQaAdcHrRyM.HcPUJuAbkeg2NES', 1);
 
 --
 -- Índices para tabelas despejadas
@@ -222,10 +223,10 @@ ALTER TABLE `servico`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `usuarios`
+-- Índices de tabela `usuario`
 --
-ALTER TABLE `usuarios`
-  ADD UNIQUE KEY `idusuario` (`idusuario`);
+ALTER TABLE `usuario`
+  ADD UNIQUE KEY `idusuario` (`id`);
 
 --
 -- AUTO_INCREMENT para tabelas despejadas
@@ -256,10 +257,10 @@ ALTER TABLE `servico`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT de tabela `usuarios`
+-- AUTO_INCREMENT de tabela `usuario`
 --
-ALTER TABLE `usuarios`
-  MODIFY `idusuario` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `usuario`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Restrições para tabelas despejadas
